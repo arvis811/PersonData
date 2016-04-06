@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Persons.Models.Person>
+@{
+    ViewBag.Title = "ListAllPersons";
+}
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.intellisense.js"></script>
+    <script type="text/javascript" src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#checkAll').click(function () {
+                if ($(this).is(":checked"))
+                    $('.checkbox').prop('checked', true);
+                else
+                    $('.checkbox').prop('checked', false);
+            });
+        });
+    </script>
+</head>
+<body>
+    @using (Html.BeginForm("Delete", "Home", FormMethod.Post))
+    {
+    <table class="table">
+        <tr>
+            <th>
+                <input type="checkbox" id="checkAll" />
+            </th>
+            <th>
+                Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Age
+            </th>
+            <th>
+                Gender
+            </th>
+        </tr>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    <input type="checkbox" class="checkbox" value="@item.id" name="Id" />
+                </td>
+                <td>
+                    @item.Name
+                </td>
+                <td>
+                    @item.LastName
+                </td>
+                <td>
+                    @item.Age
+                </td>
+                <td>
+                    @item.Gender
+                </td>
+            </tr>
+        }
+    </table>
+        if (Model.Any())
+        {
+            <input type="submit" value="Delete" />
+        }
+
+    }
+    
+    @{
+        int sum = 0;
+        int count = 0;
+        foreach (var item in Model)
+        {
+            sum = sum + item.Age;
+            count++;
+        }
+        if (count != 0)
+        {
+            double average = (sum / count);
+            <p>Average age: @average</p>
+        }
+    }
+        
+    @Html.ActionLink("Create Person", "Index", "Home")
+
+
+</body>
+
+</html>
